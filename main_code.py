@@ -34,6 +34,22 @@ def cipher4(text, key):
             result += char
     return result
 
+def cipher5(text):
+    morse_dict = {
+        'a': '.-', 'b': '-...', 'c': '-.-.', 'd': '-..', 'e': '.', 'f': '..-.', 'g': '--.', 'h': '....', 'i': '..',
+        'j': '.---', 'k': '-.-', 'l': '.-..', 'm': '--', 'n': '-.', 'o': '---', 'p': '.--.', 'q': '--.-', 'r': '.-.',
+        's': '...', 't': '-', 'u': '..-', 'v': '...-', 'w': '.--', 'x': '-..-', 'y': '-.--', 'z': '--..', ' ': '/',
+        '0': '-----', '1': '.----', '2': '..---', '3': '...--', '4': '....-', '5': '.....', '6': '-....', '7': '--...', '8': '---..', '9': '----.',
+        '.': '.-.-.-', ',': '--..--', '?': '..--..', "'": '.----.', '!': '-.-.--', '/': '-..-.', '(': '-.--.', ')': '-.--.-',
+        '&': '.-...', ':': '---...', ';': '-.-.-.', '=': '-...-', '+': '.-.-.', '-': '-....-', '_': '..--.-', '"': '.-..-.',
+        '$': '...-..-', '@': '.--.-.'
+    }
+    return ' '.join(morse_dict.get(char.lower(), '?') for char in text)
+
+def cipher6(morse_text):
+    conversion_dict = {'.': 'b', '-': 'a', '/': 'c', ' ': 'd'}
+    return ''.join(conversion_dict.get(char, char) for char in morse_text)
+
 def cipher1_decrypt(text, shift):
     result = ""
     shift_amount = int(shift) % 26
@@ -68,6 +84,27 @@ def cipher4_decrypt(text, key):
             result += char
     return result
 
+def cipher5_decrypt(morse_text):
+    morse_dict = {
+        '.-': 'a', '-...': 'b', '-.-.': 'c', '-..': 'd', '.': 'e', '..-.': 'f', '--.': 'g', '....': 'h', '..': 'i',
+        '.---': 'j', '-.-': 'k', '.-..': 'l', '--': 'm', '-.': 'n', '---': 'o', '.--.': 'p', '--.-': 'q', '.-.': 'r',
+        '...': 's', '-': 't', '..-': 'u', '...-': 'v', '.--': 'w', '-..-': 'x', '-.--': 'y', '--..': 'z', '/': ' ',
+        '-----': '0', '.----': '1', '..---': '2', '...--': '3', '....-': '4', '.....': '5', '-....': '6', '--...': '7', '---..': '8', '----.': '9',
+        '.-.-.-': '.', '--..--': ',', '..--..': '?', '.----.': "'", '-.-.--': '!', '-..-.': '/', '-.--.': '(', '-.--.-': ')',
+        '.-...': '&', '---...': ':', '-.-.-.': ';', '-...-': '=', '.-.-.': '+', '-....-': '-', '..--.-': '_', '.-..-.': '"',
+        '...-..-': '$', '.--.-.': '@'
+    }
+    words = morse_text.split(' / ')
+    decoded_words = []
+    for word in words:
+        decoded_chars = [morse_dict.get(symbol, '?') for symbol in word.split()]
+        decoded_words.append(''.join(decoded_chars))
+    return ' '.join(decoded_words)
+
+def cipher6_decrypt(morse_text):
+    conversion_dict = {'b': '.', 'a': '-', 'c': '/', 'd': ' '}
+    return ''.join(conversion_dict.get(char, char) for char in morse_text)
+
 st.title("AlphaText Encrypter/Decrypter")
 st.text("This is the AlphaText Encrypter/Decrypter, created by Aakarsh Bajpai. It uses the virtually unbreakable AlphaText cipher (Also made by Aakarsh). Enjoy the security of AlphaText, which not even a Quantum Computer's brute force can break!")
 action = st.radio("Choose an action:", ("Encode", "Decode"))
@@ -81,9 +118,13 @@ if st.button("Process"):
         c2_encoded = cipher2(c1_encoded)
         c3_encoded = cipher3(c2_encoded, key1)
         c4_encoded = cipher4(c3_encoded, key2)
-        st.write("Encoded Text:", c4_encoded)
+        c5_encoded = cipher5(c4_encoded)
+        c6_encoded = cipher6(c5_encoded)
+        st.write("Encoded Text:", c6_encoded)
     else:
-        c4_decoded = cipher4_decrypt(text, key2)
+        c6_decoded = cipher6_decrypt(text)
+        c5_decoded = cipher5_decrypt(c6_decoded)
+        c4_decoded = cipher4_decrypt(c5_decoded, key2)
         c3_decoded = cipher3_decrypt(c4_decoded, key1)
         c2_decoded = cipher2_decrypt(c3_decoded)
         c1_decoded = cipher1_decrypt(c2_decoded, shift)
