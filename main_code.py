@@ -106,7 +106,7 @@ def cipher6_decrypt(morse_text):
     return ''.join(conversion_dict.get(char, char) for char in morse_text)
 
 st.title("AlphaText Encrypter/Decrypter")
-st.text("This is the AlphaText Encrypter/Decrypter, created by Aakarsh Bajpai. It uses the virtually unbreakable AlphaText cipher (Also made by Aakarsh). Enjoy the security of AlphaText, which not even a Quantum Computer's brute force can break!")
+st.text("This is the AlphaText Encrypter/Decrypter v3, created by Aakarsh Bajpai. It uses the virtually unbreakable AlphaText cipher (Also made by Aakarsh). Enjoy the security of AlphaText, which not even a Quantum Computer's brute force can break!")
 action = st.radio("Choose an action:", ("Encode", "Decode"))
 text = st.text_area("Enter text")
 shift = os.getenv("CSHIFT", "0")
