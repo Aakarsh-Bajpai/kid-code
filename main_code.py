@@ -114,18 +114,24 @@ key1 = os.getenv("SUBS_KEY", "abcdefghijklmnopqrstuvwxyz")
 key2 = os.getenv("VIGNKEY", "key")
 if st.button("Process"):
     if action == "Encode":
-        c1_encoded = cipher1(text, shift)
-        c2_encoded = cipher2(c1_encoded)
-        c3_encoded = cipher3(c2_encoded, key1)
-        c4_encoded = cipher4(c3_encoded, key2)
-        c5_encoded = cipher5(c4_encoded)
-        c6_encoded = cipher6(c5_encoded)
-        st.write("Encoded Text:", c6_encoded)
+        var1=text
+        for i in range(637):
+            c1_encoded = cipher1(var1, shift)
+            c2_encoded = cipher2(c1_encoded)
+            c3_encoded = cipher3(c2_encoded, key1)
+            c4_encoded = cipher4(c3_encoded, key2)
+            c5_encoded = cipher5(c4_encoded)
+            c6_encoded = cipher6(c5_encoded)
+            var1=c6_encoded
+        st.write("Encoded Text:", var1)
     else:
-        c6_decoded = cipher6_decrypt(text)
-        c5_decoded = cipher5_decrypt(c6_decoded)
-        c4_decoded = cipher4_decrypt(c5_decoded, key2)
-        c3_decoded = cipher3_decrypt(c4_decoded, key1)
-        c2_decoded = cipher2_decrypt(c3_decoded)
-        c1_decoded = cipher1_decrypt(c2_decoded, shift)
+        var1=text
+        for i in range(637):
+            c6_decoded = cipher6_decrypt(var1)
+            c5_decoded = cipher5_decrypt(c6_decoded)
+            c4_decoded = cipher4_decrypt(c5_decoded, key2)
+            c3_decoded = cipher3_decrypt(c4_decoded, key1)
+            c2_decoded = cipher2_decrypt(c3_decoded)
+            c1_decoded = cipher1_decrypt(c2_decoded, shift)
+            var1=c1_decoded
         st.write("Decoded Text:", c1_decoded)
