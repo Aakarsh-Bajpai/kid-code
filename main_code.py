@@ -47,7 +47,7 @@ def cipher5(text):
     return ' '.join(morse_dict.get(char.lower(), '?') for char in text)
 
 def cipher6(morse_text):
-    conversion_dict = {'.': 'b', '-': 'a', '/': 'c', ' ': 'd'}
+    conversion_dict = {'.': 'g', '-': 'o', '/': 'a', ' ': 'u'}
     return ''.join(conversion_dict.get(char, char) for char in morse_text)
 
 def cipher1_decrypt(text, shift):
@@ -102,7 +102,7 @@ def cipher5_decrypt(morse_text):
     return ' '.join(decoded_words)
 
 def cipher6_decrypt(morse_text):
-    conversion_dict = {'b': '.', 'a': '-', 'c': '/', 'd': ' '}
+    conversion_dict = {'g': '.', 'o': '-', 'a': '/', 'u': ' '}
     return ''.join(conversion_dict.get(char, char) for char in morse_text)
 
 st.title("AlphaText Encrypter/Decrypter")
@@ -115,23 +115,21 @@ key2 = os.getenv("VIGNKEY", "key")
 if st.button("Process"):
     if action == "Encode":
         var1=text
-        for i in range(637):
-            c1_encoded = cipher1(var1, shift)
-            c2_encoded = cipher2(c1_encoded)
-            c3_encoded = cipher3(c2_encoded, key1)
-            c4_encoded = cipher4(c3_encoded, key2)
-            c5_encoded = cipher5(c4_encoded)
-            c6_encoded = cipher6(c5_encoded)
-            var1=c6_encoded
+        c1_encoded = cipher1(var1, shift)
+        c2_encoded = cipher2(c1_encoded)
+        c3_encoded = cipher3(c2_encoded, key1)
+        c4_encoded = cipher4(c3_encoded, key2)
+        c5_encoded = cipher5(c4_encoded)
+        c6_encoded = cipher6(c5_encoded)
+        var1=c6_encoded
         st.write("Encoded Text:", var1)
     else:
         var1=text
-        for i in range(637):
-            c6_decoded = cipher6_decrypt(var1)
-            c5_decoded = cipher5_decrypt(c6_decoded)
-            c4_decoded = cipher4_decrypt(c5_decoded, key2)
-            c3_decoded = cipher3_decrypt(c4_decoded, key1)
-            c2_decoded = cipher2_decrypt(c3_decoded)
-            c1_decoded = cipher1_decrypt(c2_decoded, shift)
-            var1=c1_decoded
+        c6_decoded = cipher6_decrypt(var1)
+        c5_decoded = cipher5_decrypt(c6_decoded)
+        c4_decoded = cipher4_decrypt(c5_decoded, key2)
+        c3_decoded = cipher3_decrypt(c4_decoded, key1)
+        c2_decoded = cipher2_decrypt(c3_decoded)
+        c1_decoded = cipher1_decrypt(c2_decoded, shift)
+        var1=c1_decoded
         st.write("Decoded Text:", c1_decoded)
